@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken, extractTokenFromHeader, JWTPayload } from './auth';
+import { cookies } from 'next/headers';
 
 export interface AuthenticatedRequest extends NextRequest {
   user?: JWTPayload;
@@ -12,13 +13,25 @@ export interface AuthenticatedRequest extends NextRequest {
 
 /**
  * Middleware to authenticate requests
- * Checks for valid JWT token in Authorization header
+ * Checks for valid JWT token in cookies first, then Authorization header
  */
 export async function authenticate(
   request: NextRequest
 ): Promise<{ user: JWTPayload } | { error: NextResponse }> {
-  const authHeader = request.headers.get('authorization');
-  const token = extractTokenFromHeader(authHeader);
+  // Try to get token from cookie first
+  let token: string | null = null;
+  try {
+    const cookieStore = cookies();
+    token = cookieStore.get('auth_token')?.value || null;
+  } catch (error) {
+    // If cookies() fails (e.g., in edge runtime), try header
+  }
+
+  // Fall back to Authorization header if no cookie
+  if (!token) {
+    const authHeader = request.headers.get('authorization');
+    token = extractTokenFromHeader(authHeader);
+  }
 
   if (!token) {
     return {

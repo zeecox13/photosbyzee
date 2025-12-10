@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import PublicNavbar from './components/PublicNavbar';
 
 export const metadata: Metadata = {
   title: 'Photos by Zee',
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <PublicNavbar />
+        {children}
+      </body>
     </html>
   );
 }

@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { verifyPassword, generateToken } from '@/lib/auth';
+import { verifyPassword, createAuthToken, setAuthCookieInResponse } from '@/lib/auth';
 import { validateRequest } from '@/lib/middleware';
 import { loginSchema } from '@/lib/validations';
 
@@ -46,24 +46,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate JWT token
-    const token = generateToken({
+    const token = createAuthToken({
       userId: user.id,
       email: user.email,
       role: user.role,
     });
 
-    // Return user data (excluding password)
-    return NextResponse.json({
+    // Create response and set HTTP-only cookie
+    const response = NextResponse.json({
       success: true,
-      token,
-      user: {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      },
     });
+    return setAuthCookieInResponse(response, token);
   } catch (error: any) {
     console.error('Client login error:', error);
     return NextResponse.json(

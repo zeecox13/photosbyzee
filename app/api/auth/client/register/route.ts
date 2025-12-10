@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { hashPassword, generateToken } from '@/lib/auth';
+import { hashPassword, createAuthToken, setAuthCookieInResponse } from '@/lib/auth';
 import { validateRequest } from '@/lib/middleware';
 import { registerSchema } from '@/lib/validations';
 
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       return validation.error;
     }
 
-    const { email, password, firstName, lastName, phone } = validation.data;
+    const { email, password, name, firstName, lastName, phone } = validation.data;
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -39,36 +39,39 @@ export async function POST(request: NextRequest) {
     // Hash password
     const passwordHash = await hashPassword(password);
 
+    // Split name if provided and firstName/lastName not provided
+    let finalFirstName = firstName;
+    let finalLastName = lastName;
+    if (name && !firstName && !lastName) {
+      const nameParts = name.trim().split(' ');
+      finalFirstName = nameParts[0] || null;
+      finalLastName = nameParts.slice(1).join(' ') || null;
+    }
+
     // Create new client user
     const user = await prisma.user.create({
       data: {
         email,
         passwordHash,
-        firstName,
-        lastName,
+        firstName: finalFirstName || null,
+        lastName: finalLastName || null,
         phone,
         role: 'CLIENT',
       },
     });
 
     // Generate JWT token
-    const token = generateToken({
+    const token = createAuthToken({
       userId: user.id,
       email: user.email,
       role: user.role,
     });
 
-    return NextResponse.json({
+    // Create response and set HTTP-only cookie
+    const response = NextResponse.json({
       success: true,
-      token,
-      user: {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      },
     }, { status: 201 });
+    return setAuthCookieInResponse(response, token);
   } catch (error: any) {
     console.error('Client registration error:', error);
     return NextResponse.json(
