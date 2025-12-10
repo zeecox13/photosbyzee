@@ -1,0 +1,210 @@
+// Prisma schema for Photos by Zee
+// This defines all database models and relationships
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - supports both managers/admins and clients
+// Role determines access level: 'manager' or 'client'
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String    @map("password_hash")
+  role          UserRole  @default(CLIENT)
+  firstName     String?   @map("first_name")
+  lastName      String?   @map("last_name")
+  phone         String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relationships
+  bookings      Booking[]
+  galleries     Gallery[]
+  orders        Order[]
+  pageViews     PageView[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  MANAGER
+  CLIENT
+}
+
+// Gallery model - collections of photos for clients
+model Gallery {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  status      GalleryStatus @default(DRAFT)
+  visibility  Visibility    @default(HIDDEN)
+  price       Float?        // Gallery price (if selling entire gallery)
+  isFree      Boolean       @default(false) @map("is_free")
+  
+  // Relationships
+  userId      String        @map("user_id") // Client who owns this gallery
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookingId   String?       @map("booking_id") // Optional link to booking
+  booking     Booking?      @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  
+  images      Image[]
+  orders      Order[]
+  pageViews   PageView[]
+  
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  publishedAt DateTime?     @map("published_at")
+
+  @@map("galleries")
+}
+
+enum GalleryStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  HIDDEN
+}
+
+// Image model - individual photos within galleries
+model Image {
+  id          String   @id @default(cuid())
+  url         String   // Full image URL
+  thumbnailUrl String? @map("thumbnail_url") // Thumbnail URL
+  filename    String
+  price       Float    @default(0) // Individual image price
+  order       Int?     // Display order within gallery
+  
+  // Relationships
+  galleryId   String   @map("gallery_id")
+  gallery     Gallery  @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  
+  orderItems  OrderItem[]
+  
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("images")
+}
+
+// Booking model - photo session appointments
+model Booking {
+  id          String        @id @default(cuid())
+  date        DateTime      // Booking date and time
+  duration    Int           @default(60) // Duration in minutes
+  location    String?
+  notes       String?
+  status      BookingStatus @default(PENDING)
+  serviceType String?       @map("service_type")
+  totalPrice  Float?        @map("total_price")
+  
+  // Relationships
+  userId      String        @map("user_id")
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  galleries   Gallery[]
+  
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  @@map("bookings")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+// Order model - purchases of galleries or individual images
+model Order {
+  id          String      @id @default(cuid())
+  totalAmount Float       @map("total_amount")
+  status      OrderStatus @default(PENDING)
+  paymentIntentId String? @map("payment_intent_id") // Stripe payment intent ID
+  
+  // Relationships
+  userId      String      @map("user_id")
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  galleryId   String?     @map("gallery_id") // If purchasing entire gallery
+  gallery     Gallery?    @relation(fields: [galleryId], references: [id], onDelete: SetNull)
+  
+  items       OrderItem[]
+  
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  @@map("orders")
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+// OrderItem model - individual items in an order (images)
+model OrderItem {
+  id        String  @id @default(cuid())
+  price     Float
+  
+  // Relationships
+  orderId   String  @map("order_id")
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  imageId   String  @map("image_id")
+  image     Image   @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("order_items")
+}
+
+// PageView model - analytics tracking
+model PageView {
+  id        String   @id @default(cuid())
+  path      String   // Page path
+  referrer  String?  // Referrer URL
+  userAgent String?  @map("user_agent")
+  ipAddress String?  @map("ip_address")
+  
+  // Relationships
+  userId    String?  @map("user_id") // Optional - logged in user
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  galleryId String?  @map("gallery_id") // Optional - if viewing a gallery
+  gallery   Gallery? @relation(fields: [galleryId], references: [id], onDelete: SetNull)
+  
+  viewedAt  DateTime @default(now()) @map("viewed_at")
+
+  @@map("page_views")
+}
+
+// AvailabilitySlot model - available booking time slots
+model AvailabilitySlot {
+  id          String   @id @default(cuid())
+  date        DateTime // Date of the slot
+  startTime   String   @map("start_time") // e.g., "09:00"
+  endTime     String   @map("end_time") // e.g., "17:00"
+  isAvailable Boolean  @default(true) @map("is_available")
+  isRecurring Boolean  @default(false) @map("is_recurring")
+  recurringDay String? @map("recurring_day") // e.g., "Monday"
+  
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("availability_slots")
+}
+
