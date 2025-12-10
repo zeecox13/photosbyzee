@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Gallery Access - Photos by Zee</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html">Home</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section class="login-section">
+        <div class="container">
+            <div class="login-card">
+                <h1>Client Gallery Access</h1>
+                <p class="login-subtitle">Enter your gallery password to view your photos</p>
+                
+                <form class="login-form" id="galleryLoginForm">
+                    <div class="form-group">
+                        <label for="galleryPassword">Gallery Password</label>
+                        <input 
+                            type="password" 
+                            id="galleryPassword" 
+                            name="password" 
+                            placeholder="Enter your unique gallery password" 
+                            required
+                            autocomplete="off"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="galleryId">Gallery ID (Optional)</label>
+                        <input 
+                            type="text" 
+                            id="galleryId" 
+                            name="galleryId" 
+                            placeholder="If provided, enter your gallery ID"
+                            autocomplete="off"
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Access Gallery</button>
+                    
+                    <div class="login-error" id="loginError" style="display: none;">
+                        <p>Invalid password. Please try again or contact us for assistance.</p>
+                    </div>
+                </form>
+                
+                <div class="login-help">
+                    <p>Need help? <a href="contact.html">Contact us</a> for your gallery access information.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Photos by Zee. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Add scrolled class to nav on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Gallery login handler
+        document.getElementById('galleryLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('galleryPassword').value;
+            const galleryId = document.getElementById('galleryId').value;
+            const errorDiv = document.getElementById('loginError');
+            
+            // In production, this would make an API call to verify password
+            try {
+                const response = await fetch('/api/gallery/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ password, galleryId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store session token
+                    localStorage.setItem('galleryToken', data.token);
+                    localStorage.setItem('galleryId', data.galleryId);
+                    
+                    // Redirect to gallery
+                    window.location.href = `client-gallery.html?gallery=${data.galleryId}`;
+                } else {
+                    errorDiv.style.display = 'block';
+                    errorDiv.textContent = data.message || 'Invalid password. Please try again.';
+                }
+            } catch (error) {
+                // For development: allow access with demo password
+                if (password === 'demo2024') {
+                    localStorage.setItem('galleryToken', 'demo-token');
+                    window.location.href = 'client-gallery.html';
+                } else {
+                    errorDiv.style.display = 'block';
+                    errorDiv.textContent = 'Unable to verify access. Please try again or contact support.';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+

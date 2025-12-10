@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Gallery - Photos by Zee</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html">Home</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Client Gallery Header -->
+    <section class="gallery-header">
+        <div class="container">
+            <h1>Your Gallery</h1>
+            <p>Select your favorite photos to purchase. All images are watermarked until purchase.</p>
+        </div>
+    </section>
+
+    <!-- Cart Summary -->
+    <div class="cart-summary" id="cartSummary" style="display: none;">
+        <div class="container">
+            <div class="cart-content">
+                <span class="cart-count">0 items</span>
+                <span class="cart-total">$0.00</span>
+                <button class="btn-primary" onclick="openCheckout()">View Cart & Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Grid with Watermarks -->
+    <section class="gallery client-gallery">
+        <div class="container">
+            <div class="gallery-grid client-grid">
+                <!-- Sample gallery items with watermarks -->
+                <div class="gallery-item client-item" data-price="25">
+                    <div class="watermark-overlay">
+                        <span class="watermark-text">PHOTOS BY ZEE</span>
+                    </div>
+                    <img src="april.jpg" alt="Photo 1">
+                    <div class="photo-actions">
+                        <button class="favorite-btn" onclick="toggleFavorite(this)" title="Add to favorites">
+                            <span class="heart-icon">♡</span>
+                        </button>
+                        <button class="add-to-cart-btn" onclick="addToCart(this, 25)">
+                            Add to Cart - $25
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="gallery-item client-item" data-price="25">
+                    <div class="watermark-overlay">
+                        <span class="watermark-text">PHOTOS BY ZEE</span>
+                    </div>
+                    <img src="fall.jpg" alt="Photo 2">
+                    <div class="photo-actions">
+                        <button class="favorite-btn" onclick="toggleFavorite(this)" title="Add to favorites">
+                            <span class="heart-icon">♡</span>
+                        </button>
+                        <button class="add-to-cart-btn" onclick="addToCart(this, 25)">
+                            Add to Cart - $25
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="gallery-item client-item" data-price="25">
+                    <div class="watermark-overlay">
+                        <span class="watermark-text">PHOTOS BY ZEE</span>
+                    </div>
+                    <img src="headshot.jpg" alt="Photo 3">
+                    <div class="photo-actions">
+                        <button class="favorite-btn" onclick="toggleFavorite(this)" title="Add to favorites">
+                            <span class="heart-icon">♡</span>
+                        </button>
+                        <button class="add-to-cart-btn" onclick="addToCart(this, 25)">
+                            Add to Cart - $25
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="gallery-item client-item" data-price="25">
+                    <div class="watermark-overlay">
+                        <span class="watermark-text">PHOTOS BY ZEE</span>
+                    </div>
+                    <img src="jacks.jpg" alt="Photo 4">
+                    <div class="photo-actions">
+                        <button class="favorite-btn" onclick="toggleFavorite(this)" title="Add to favorites">
+                            <span class="heart-icon">♡</span>
+                        </button>
+                        <button class="add-to-cart-btn" onclick="addToCart(this, 25)">
+                            Add to Cart - $25
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="gallery-item client-item" data-price="25">
+                    <div class="watermark-overlay">
+                        <span class="watermark-text">PHOTOS BY ZEE</span>
+                    </div>
+                    <img src="prom.jpg" alt="Photo 5">
+                    <div class="photo-actions">
+                        <button class="favorite-btn" onclick="toggleFavorite(this)" title="Add to favorites">
+                            <span class="heart-icon">♡</span>
+                        </button>
+                        <button class="add-to-cart-btn" onclick="addToCart(this, 25)">
+                            Add to Cart - $25
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="gallery-item client-item" data-price="25">
+                    <div class="watermark-overlay">
+                        <span class="watermark-text">PHOTOS BY ZEE</span>
+                    </div>
+                    <img src="bluebonnetboys.jpg" alt="Photo 6" class="bluebonnet-img">
+                    <div class="photo-actions">
+                        <button class="favorite-btn" onclick="toggleFavorite(this)" title="Add to favorites">
+                            <span class="heart-icon">♡</span>
+                        </button>
+                        <button class="add-to-cart-btn" onclick="addToCart(this, 25)">
+                            Add to Cart - $25
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checkout Modal -->
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="checkout-content">
+            <span class="close-modal" onclick="closeCheckout()">&times;</span>
+            <h2>Review Your Cart</h2>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be populated here -->
+            </div>
+            <div class="cart-footer">
+                <div class="total-amount">
+                    <strong>Total: <span id="checkoutTotal">$0.00</span></strong>
+                </div>
+                <button class="btn-primary" onclick="proceedToPayment()">Proceed to Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Photos by Zee. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Check authentication on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('galleryToken');
+            const galleryId = new URLSearchParams(window.location.search).get('gallery');
+            
+            if (!token) {
+                // Redirect to login if not authenticated
+                window.location.href = 'gallery-login.html';
+                return;
+            }
+            
+            // Verify token with backend
+            verifyGalleryAccess(token, galleryId);
+        });
+        
+        async function verifyGalleryAccess(token, galleryId) {
+            try {
+                const response = await fetch('/api/gallery/verify-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ galleryId })
+                });
+                
+                const data = await response.json();
+                
+                if (!data.valid) {
+                    localStorage.removeItem('galleryToken');
+                    window.location.href = 'gallery-login.html';
+                } else {
+                    // Load gallery photos
+                    loadGalleryPhotos(galleryId || data.galleryId);
+                }
+            } catch (error) {
+                // In demo mode, continue
+                console.log('Demo mode - continuing');
+            }
+        }
+        
+        function loadGalleryPhotos(galleryId) {
+            // Fetch photos for this gallery
+            fetch(`/api/gallery/${galleryId}/photos`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('galleryToken')}`
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.photos) {
+                    renderGalleryPhotos(data.photos);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading photos:', error);
+            });
+        }
+        
+        function renderGalleryPhotos(photos) {
+            // Update gallery grid with actual photos from API
+            const grid = document.querySelector('.client-grid');
+            // This would replace the static HTML with dynamic photos
+        }
+        
+        let cart = [];
+        let favorites = [];
+
+        function toggleFavorite(btn) {
+            btn.classList.toggle('favorited');
+            const icon = btn.querySelector('.heart-icon');
+            icon.textContent = btn.classList.contains('favorited') ? '♥' : '♡';
+        }
+
+        function addToCart(btn, price) {
+            const item = btn.closest('.client-item');
+            const img = item.querySelector('img');
+            const alt = img.alt;
+            
+            cart.push({
+                id: Date.now(),
+                alt: alt,
+                price: price,
+                src: img.src
+            });
+            
+            updateCartSummary();
+            btn.textContent = 'Added ✓';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.textContent = `Add to Cart - $${price}`;
+                btn.disabled = false;
+            }, 2000);
+        }
+
+        function updateCartSummary() {
+            const count = cart.length;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            document.querySelector('.cart-count').textContent = `${count} item${count !== 1 ? 's' : ''}`;
+            document.querySelector('.cart-total').textContent = `$${total.toFixed(2)}`;
+            
+            const summary = document.getElementById('cartSummary');
+            if (count > 0) {
+                summary.style.display = 'block';
+            } else {
+                summary.style.display = 'none';
+            }
+        }
+
+        function openCheckout() {
+            const modal = document.getElementById('checkoutModal');
+            const itemsContainer = document.getElementById('cartItems');
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            itemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.src}" alt="${item.alt}">
+                    <div class="cart-item-info">
+                        <span>${item.alt}</span>
+                        <span class="cart-item-price">$${item.price.toFixed(2)}</span>
+                    </div>
+                    <button class="remove-item" onclick="removeFromCart(${item.id})">×</button>
+                </div>
+            `).join('');
+            
+            document.getElementById('checkoutTotal').textContent = `$${total.toFixed(2)}`;
+            modal.style.display = 'flex';
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartSummary();
+            openCheckout();
+        }
+
+        function proceedToPayment() {
+            // This would integrate with Stripe
+            alert('Redirecting to secure payment...\n\nIn production, this would connect to Stripe Checkout.');
+            // window.location.href = '/stripe-checkout'; // Stripe integration would go here
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('checkoutModal');
+            if (event.target === modal) {
+                closeCheckout();
+            }
+        }
+
+        // Add scrolled class to nav on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
+

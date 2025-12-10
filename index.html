@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photos by Zee</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html">Home</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+            <a href="booking.html" class="btn-nav">Book Now</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Photos by Zee</h1>
+            <p>Capturing life's beautiful moments</p>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section class="about">
+        <div class="container">
+            <h2>About Me</h2>
+                <p>Hi, I’m Zee, a lifestyle photographer who loves real moments, good light, and the little memories that matter most.</p>
+            
+                <p>I got my first camera at 16 and immediately fell in love with capturing life as it unfolds. Over the years I’ve photographed families, couples, newborns, seniors, weddings, and everything in between, and each story reminds me why I love what I do.</p>
+            
+                <p>After a busy season of life, I’m back home in the Northwoods, camera in hand, feeling more inspired than ever. I’m here for the soft smiles, the real laughs, the quiet in between moments, and the magic people do not always see in themselves.</p>
+            
+                <p>I can’t wait to meet you, hype you up, chase beautiful light with you, and create images you will love forever.</p>
+            
+                <p>~ XO, Zee</p>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section class="gallery">
+        <div class="gallery-grid">
+            <div class="gallery-item">
+              <img src="april.jpg" alt="Couples session">
+            </div>
+            <div class="gallery-item">
+              <img src="fall.jpg" alt="Fall family session">
+            </div>
+            <div class="gallery-item">
+              <img src="headshot.jpg" alt="Headshot session">
+            </div>
+            <div class="gallery-item">
+              <img src="jacks.jpg" alt="Newborn session">
+            </div>
+            <div class="gallery-item">
+              <img src="prom.jpg" alt="Prom session">
+            </div>
+            <div class="gallery-item">
+                <img src="bluebonnetboys.jpg"
+                     alt="Bluebonnet boys session"
+                     class="bluebonnet-img">
+              </div>
+
+            </div>
+          </div>
+          
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Create Beautiful Memories?</h2>
+            <p>Book your session today and let's capture your story together.</p>
+            <a href="booking.html" class="btn-primary">Book Your Session</a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-content">
+                <p>Interested in a photoshoot or have questions? I'd love to hear from you!</p>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Photos by Zee. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Add scrolled class to nav on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

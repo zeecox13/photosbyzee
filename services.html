@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Photos by Zee</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html">Home</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+            <a href="booking.html" class="btn-nav">Book Now</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Services</h1>
+            <p>Capture your special moments</p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="about">
+        <div class="container">
+            <h2>Photography Services</h2>
+            <p style="margin-bottom: 40px;">I offer a variety of photography services to capture your special moments. Each session is tailored to your unique story and style.</p>
+            
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3>Family Sessions</h3>
+                    <p>Capture the love and connection of your family with natural, authentic moments. Perfect for annual photos, milestones, or just because.</p>
+                    <div class="price">Starting at $350</div>
+                    <a href="booking.html" class="btn-primary">Book Session</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3>Couples & Engagements</h3>
+                    <p>Romantic sessions that tell your love story. From engagement photos to anniversary celebrations, I'll capture your connection beautifully.</p>
+                    <div class="price">Starting at $300</div>
+                    <a href="booking.html" class="btn-primary">Book Session</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3>Newborn & Maternity</h3>
+                    <p>Gentle, intimate sessions capturing the precious early days. From maternity to newborn, I'll preserve these fleeting moments with care.</p>
+                    <div class="price">Starting at $400</div>
+                    <a href="booking.html" class="btn-primary">Book Session</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3>Senior Portraits</h3>
+                    <p>Celebrate this milestone with portraits that reflect your personality and style. Multiple locations and outfit changes available.</p>
+                    <div class="price">Starting at $300</div>
+                    <a href="booking.html" class="btn-primary">Book Session</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3>Headshots & Branding</h3>
+                    <p>Professional headshots and branding sessions for your business or personal brand. Look polished and confident.</p>
+                    <div class="price">Starting at $250</div>
+                    <a href="booking.html" class="btn-primary">Book Session</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3>Events & Weddings</h3>
+                    <p>Document your special day with beautiful, candid photography. Available for weddings, parties, and special events.</p>
+                    <div class="price">Starting at $1,200</div>
+                    <a href="booking.html" class="btn-primary">Book Session</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Photos by Zee. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Add scrolled class to nav on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
