@@ -10,6 +10,9 @@ import { hashPassword, generateToken } from '@/lib/auth';
 import { validateRequest } from '@/lib/middleware';
 import { registerSchema } from '@/lib/validations';
 
+// Mark route as dynamic
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

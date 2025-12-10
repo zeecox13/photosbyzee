@@ -10,6 +10,9 @@ import { prisma } from '@/lib/db';
 import { requireManager, validateRequest } from '@/lib/middleware';
 import { updateBookingSchema } from '@/lib/validations';
 
+// Mark route as dynamic
+export const dynamic = 'force-dynamic';
+
 // GET - Get booking by ID
 export async function GET(
   request: NextRequest,

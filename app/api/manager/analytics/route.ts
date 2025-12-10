@@ -8,6 +8,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { requireManager } from '@/lib/middleware';
 
+// Mark route as dynamic
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const authResult = await requireManager(request);

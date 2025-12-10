@@ -9,6 +9,9 @@ import { prisma } from '@/lib/db';
 import { requireClient, validateRequest } from '@/lib/middleware';
 import { createOrderSchema } from '@/lib/validations';
 
+// Mark route as dynamic
+export const dynamic = 'force-dynamic';
+
 // GET - Get client's orders
 export async function GET(request: NextRequest) {
   try {

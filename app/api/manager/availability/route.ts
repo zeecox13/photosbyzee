@@ -9,6 +9,9 @@ import { prisma } from '@/lib/db';
 import { requireManager, validateRequest } from '@/lib/middleware';
 import { createAvailabilitySchema } from '@/lib/validations';
 
+// Mark route as dynamic
+export const dynamic = 'force-dynamic';
+
 // GET - Get availability slots
 export async function GET(request: NextRequest) {
   try {

@@ -9,6 +9,9 @@ import { prisma } from '@/lib/db';
 import { requireManager } from '@/lib/middleware';
 import { z } from 'zod';
 
+// Mark route as dynamic
+export const dynamic = 'force-dynamic';
+
 const addImageSchema = z.object({
   url: z.string().url(),
   thumbnailUrl: z.string().url().optional(),
