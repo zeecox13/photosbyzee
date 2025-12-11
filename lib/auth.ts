@@ -163,8 +163,12 @@ export async function getCurrentUser(): Promise<{
     });
 
     return user;
-  } catch (error) {
-    console.error('Error getting current user:', error);
+  } catch (error: any) {
+    // Don't log DYNAMIC_SERVER_USAGE errors during build - they're expected
+    // when pages using cookies aren't marked as dynamic
+    if (error?.digest !== 'DYNAMIC_SERVER_USAGE') {
+      console.error('Error getting current user:', error);
+    }
     return null;
   }
 }
