@@ -44,8 +44,8 @@ export async function POST(request: NextRequest) {
     let finalLastName = lastName;
     if (name && !firstName && !lastName) {
       const nameParts = name.trim().split(' ');
-      finalFirstName = nameParts[0] || null;
-      finalLastName = nameParts.slice(1).join(' ') || null;
+      finalFirstName = nameParts[0] || undefined;
+      finalLastName = nameParts.slice(1).join(' ') || undefined;
     }
 
     // Create new client user
