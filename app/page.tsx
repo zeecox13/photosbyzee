@@ -1,5 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Photos by Zee - Professional Photography',
+  description: 'Capturing life\'s beautiful moments with professional photography services',
+};
 
 // Gallery images for home page (6 images)
 const homeGalleryImages = [
