@@ -80,7 +80,7 @@ export default function ClientDashboard() {
       <div className="max-w-7xl mx-auto">
         {/* Welcome Section */}
         <div className="mb-12 text-center">
-          <h1 className="font-serif text-5xl text-[#D4AF50] mb-4">
+          <h1 className="text-5xl text-[#D4AF50] mb-4" style={{ fontFamily: "'Lora', serif" }}>
             Welcome, {displayName}!
           </h1>
           <p className="text-lg text-[#3C4033]">
@@ -92,7 +92,7 @@ export default function ClientDashboard() {
           {/* Upcoming Bookings */}
           <div className="bg-white rounded-xl shadow-soft p-8">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="font-serif text-2xl text-[#D4AF50]">
+              <h2 className="text-2xl text-[#D4AF50]" style={{ fontFamily: "'Lora', serif" }}>
                 Upcoming Bookings
               </h2>
               <Link
@@ -137,7 +137,8 @@ export default function ClientDashboard() {
                 <p className="text-[#3C4033]/70 mb-4">No upcoming bookings</p>
                 <Link
                   href="/services"
-                  className="inline-block px-6 py-2 bg-[#D4AF50] text-black rounded-md text-sm font-medium hover:bg-[#B8943A] transition-colors golden-highlight"
+                  className="inline-block px-6 py-2 bg-[#D4AF50] text-black rounded-md text-sm font-bold hover:bg-[#B8943A] transition-colors golden-highlight"
+                  style={{ fontFamily: "'Lora', serif" }}
                 >
                   Book a Session
                 </Link>
@@ -148,7 +149,7 @@ export default function ClientDashboard() {
           {/* My Galleries */}
           <div className="bg-white rounded-xl shadow-soft p-8">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="font-serif text-2xl text-[#D4AF50]">
+              <h2 className="text-2xl text-[#D4AF50]" style={{ fontFamily: "'Lora', serif" }}>
                 My Galleries
               </h2>
               <Link
@@ -188,7 +189,7 @@ export default function ClientDashboard() {
 
         {/* Quick Actions */}
         <div className="bg-white rounded-xl shadow-soft p-8">
-          <h2 className="font-serif text-2xl text-[#D4AF50] mb-6">
+          <h2 className="text-2xl text-[#D4AF50] mb-6" style={{ fontFamily: "'Lora', serif" }}>
             Quick Actions
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

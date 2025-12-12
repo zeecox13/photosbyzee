@@ -22,7 +22,8 @@ export default function Error({
         </p>
         <button
           onClick={reset}
-          className="px-8 py-3 bg-[#D4AF50] text-black rounded-md font-medium hover:bg-[#B8943A] transition-colors"
+          className="px-8 py-3 bg-[#D4AF50] text-black rounded-md font-bold hover:bg-[#B8943A] transition-colors"
+          style={{ fontFamily: "'Lora', serif" }}
         >
           Try again
         </button>

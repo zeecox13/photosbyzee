@@ -11,7 +11,8 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="inline-block px-8 py-3 bg-[#D4AF50] text-black rounded-md font-medium hover:bg-[#B8943A] transition-colors"
+          className="inline-block px-8 py-3 bg-[#D4AF50] text-black rounded-md font-bold hover:bg-[#B8943A] transition-colors"
+          style={{ fontFamily: "'Lora', serif" }}
         >
           Go Home
         </Link>

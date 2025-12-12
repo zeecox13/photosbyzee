@@ -70,7 +70,7 @@ export default function Contact() {
       {/* Hero Section */}
       <section className="h-screen flex items-start justify-center text-center text-white relative bg-cover bg-fixed pt-[35vh]" style={{ backgroundImage: 'linear-gradient(rgba(60, 64, 51, 0.4), rgba(60, 64, 51, 0.4)), url(/engagement1.jpg)', backgroundPosition: 'center 30%' }}>
         <div className="max-w-4xl mx-auto px-5">
-          <h1 className="font-serif text-7xl mb-4 font-normal tracking-wider drop-shadow-lg">
+          <h1 className="text-7xl mb-4 font-normal tracking-wider drop-shadow-lg" style={{ fontFamily: "'Lora', serif" }}>
             Contact
           </h1>
         </div>
@@ -79,7 +79,7 @@ export default function Contact() {
       {/* Contact Form Section */}
       <section className="py-24 bg-[#F8F7F1]">
         <div className="max-w-2xl mx-auto px-5">
-          <h2 className="font-serif text-5xl mb-6 text-center text-[#D4AF50] font-normal tracking-wide animate-fadeInUp">
+          <h2 className="text-5xl mb-6 text-center text-[#D4AF50] font-normal tracking-wide animate-fadeInUp" style={{ fontFamily: "'Lora', serif" }}>
             Get In Touch
           </h2>
           <p className="text-lg text-center text-[#3C4033] mb-12 animate-fadeInUp animate-delay-100">
@@ -251,7 +251,8 @@ export default function Contact() {
             <button
               type="submit"
               disabled={loading}
-              className="px-12 py-4 bg-[#D4AF50] text-black rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] hover:translate-y-[-3px] hover:shadow-elegant hover:scale-105 active:scale-100 self-center mt-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0 golden-highlight"
+              className="px-12 py-4 bg-[#D4AF50] text-black rounded-md text-base font-bold tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] hover:translate-y-[-3px] hover:shadow-elegant hover:scale-105 active:scale-100 self-center mt-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0 golden-highlight"
+              style={{ fontFamily: "'Lora', serif" }}
             >
               {loading ? 'Sending...' : 'Send Message'}
             </button>

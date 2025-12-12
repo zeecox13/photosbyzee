@@ -14,7 +14,7 @@ export default async function AdminDashboard() {
   return (
     <div className="min-h-screen bg-[#F4F1EA] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="font-serif text-5xl text-[#D4AF50] mb-4">
+        <h1 className="text-5xl text-[#D4AF50] mb-4" style={{ fontFamily: "'Lora', serif" }}>
           Manager Dashboard
         </h1>
         <p className="text-lg text-[#3C4033]">

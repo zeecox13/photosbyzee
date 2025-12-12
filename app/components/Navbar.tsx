@@ -46,7 +46,7 @@ export default function PublicNavbar() {
   };
 
   const navTextColor = 'text-gray-800';
-  const navBg = scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-white/30 backdrop-blur-sm';
+  const navBg = 'bg-white/30 backdrop-blur-sm'; // Always transparent
   const textShadow = 'none';
 
   return (
@@ -55,7 +55,7 @@ export default function PublicNavbar() {
         <div className="flex items-center justify-between">
           {/* Left side - "Photos by Zee" text */}
           <Link href="/" className="flex-shrink-0">
-            <span className={`${navTextColor} text-xl font-normal tracking-wide`} style={{ textShadow, fontFamily: "'Lora', serif" }}>
+            <span className={`${navTextColor} text-xl font-bold tracking-wide`} style={{ textShadow, fontFamily: "'Lora', serif" }}>
               Photos by Zee
             </span>
           </Link>
@@ -69,7 +69,7 @@ export default function PublicNavbar() {
                   ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
                   : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
               }`}
-              style={{ textShadow }}
+              style={{ textShadow, fontFamily: "'Lora', serif" }}
             >
               Home
             </Link>
@@ -80,7 +80,7 @@ export default function PublicNavbar() {
                   ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
                   : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
               }`}
-              style={{ textShadow }}
+              style={{ textShadow, fontFamily: "'Lora', serif" }}
             >
               Portfolio
             </Link>
@@ -91,7 +91,7 @@ export default function PublicNavbar() {
                   ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
                   : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
               }`}
-              style={{ textShadow }}
+              style={{ textShadow, fontFamily: "'Lora', serif" }}
             >
               Services
             </Link>
@@ -102,7 +102,7 @@ export default function PublicNavbar() {
                   ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
                   : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
               }`}
-              style={{ textShadow }}
+              style={{ textShadow, fontFamily: "'Lora', serif" }}
             >
               Contact
             </Link>
@@ -113,7 +113,7 @@ export default function PublicNavbar() {
                   ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
                   : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
               }`}
-              style={{ textShadow }}
+              style={{ textShadow, fontFamily: "'Lora', serif" }}
             >
               Client Login
             </Link>
@@ -123,7 +123,8 @@ export default function PublicNavbar() {
           <div className="flex-shrink-0">
             <Link
               href="/services"
-              className="px-6 py-2.5 bg-[#D4AF50] text-black rounded-full text-base font-medium tracking-wide transition-all duration-300 hover:bg-[#B8943A] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
+              className="px-6 py-2.5 bg-[#D4AF50] text-black rounded-full text-base font-bold tracking-wide transition-all duration-300 hover:bg-[#B8943A] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
+              style={{ fontFamily: "'Lora', serif" }}
             >
               Book Now
             </Link>

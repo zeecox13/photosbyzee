@@ -127,7 +127,7 @@ function BookingPageContent() {
     <div className="min-h-screen bg-[#F8F7F1] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-soft p-8 mb-8">
-          <h1 className="font-serif text-4xl text-[#D4AF50] mb-2">Book Your Session</h1>
+          <h1 className="text-4xl text-[#D4AF50] mb-2" style={{ fontFamily: "'Lora', serif" }}>Book Your Session</h1>
           <p className="text-lg text-[#3C4033] mb-4">
             {serviceType} - {priceStr}
           </p>
@@ -152,7 +152,7 @@ function BookingPageContent() {
             >
               ← Previous
             </button>
-            <h2 className="font-serif text-2xl text-[#D4AF50]">
+            <h2 className="text-2xl text-[#D4AF50]" style={{ fontFamily: "'Lora', serif" }}>
               {format(currentMonth, 'MMMM yyyy')}
             </h2>
             <button
@@ -207,7 +207,7 @@ function BookingPageContent() {
         {/* Time Selection */}
         {selectedDate && (
           <div className="bg-white rounded-xl shadow-soft p-8 mb-8 animate-fadeInUp">
-            <h3 className="font-serif text-2xl text-[#D4AF50] mb-4">
+            <h3 className="text-2xl text-[#D4AF50] mb-4" style={{ fontFamily: "'Lora', serif" }}>
               Select Time - {format(selectedDate, 'EEEE, MMMM d, yyyy')}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -241,7 +241,8 @@ function BookingPageContent() {
           <div className="flex justify-end">
             <button
               onClick={handleContinue}
-              className="px-12 py-4 bg-[#D4AF50] text-black rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] hover:translate-y-[-3px] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
+              className="px-12 py-4 bg-[#D4AF50] text-black rounded-md text-base font-bold tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] hover:translate-y-[-3px] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
+              style={{ fontFamily: "'Lora', serif" }}
             >
               Continue to Payment
             </button>

@@ -97,11 +97,11 @@ export default function PaymentPage() {
     <div className="min-h-screen bg-[#F8F7F1] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-xl shadow-soft p-8 mb-8">
-          <h1 className="font-serif text-4xl text-[#D4AF50] mb-6">Complete Your Booking</h1>
+          <h1 className="text-4xl text-[#D4AF50] mb-6" style={{ fontFamily: "'Lora', serif" }}>Complete Your Booking</h1>
           
           {/* Booking Summary */}
           <div className="border-t border-gray-200 pt-6 mb-6">
-            <h2 className="font-serif text-2xl text-[#D4AF50] mb-4">Booking Summary</h2>
+            <h2 className="text-2xl text-[#D4AF50] mb-4" style={{ fontFamily: "'Lora', serif" }}>Booking Summary</h2>
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-[#3C4033]">Service:</span>
@@ -144,14 +144,16 @@ export default function PaymentPage() {
           <div className="flex gap-4">
             <button
               onClick={() => router.back()}
-              className="px-8 py-3 border-2 border-[#D4AF50] text-[#D4AF50] rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#D4AF50] hover:text-black"
+              className="px-8 py-3 border-2 border-[#D4AF50] text-[#D4AF50] rounded-md text-base font-bold tracking-wide uppercase transition-all duration-300 hover:bg-[#D4AF50] hover:text-black"
+              style={{ fontFamily: "'Lora', serif" }}
             >
               Back
             </button>
             <button
               onClick={handlePayment}
               disabled={loading}
-              className="flex-1 px-12 py-4 bg-[#D4AF50] text-black rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] hover:translate-y-[-3px] hover:shadow-elegant hover:scale-105 active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0 golden-highlight"
+              className="flex-1 px-12 py-4 bg-[#D4AF50] text-black rounded-md text-base font-bold tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] hover:translate-y-[-3px] hover:shadow-elegant hover:scale-105 active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0 golden-highlight"
+              style={{ fontFamily: "'Lora', serif" }}
             >
               {loading ? 'Processing...' : `Pay Deposit $${bookingData.deposit.toFixed(2)}`}
             </button>

@@ -39,7 +39,7 @@ export default function Services() {
       {/* Hero Section - No background image, just title */}
       <section className="pt-32 pb-16 text-center bg-[#F8F7F1]">
         <div className="max-w-4xl mx-auto px-5">
-          <h1 className="font-serif text-7xl mb-6 font-normal tracking-wider text-[#D4AF50]">
+          <h1 className="text-7xl mb-6 font-normal tracking-wider text-[#D4AF50]" style={{ fontFamily: "'Lora', serif" }}>
             Services
           </h1>
           <p className="text-lg text-center text-[#3C4033] mb-4 max-w-3xl mx-auto">
@@ -74,7 +74,8 @@ export default function Services() {
                   </div>
                   <Link
                     href={`/client/register?serviceType=${encodeURIComponent(service.title)}&price=${encodeURIComponent(service.price)}`}
-                    className="inline-block px-9 py-3.5 bg-[#D4AF50] text-black rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] hover:translate-y-[-2px] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
+                    className="inline-block px-9 py-3.5 bg-[#D4AF50] text-black rounded-md text-base font-bold tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] hover:translate-y-[-2px] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
+                    style={{ fontFamily: "'Lora', serif" }}
                   >
                     Book Session
                   </Link>

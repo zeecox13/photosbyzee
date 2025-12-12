@@ -105,7 +105,7 @@ export default function ClientRegisterForm() {
           </div>
 
           <div className="mb-8">
-            <h1 className="font-serif text-4xl text-center text-[#D4AF50] mb-2">
+            <h1 className="text-4xl text-center text-[#D4AF50] mb-2" style={{ fontFamily: "'Lora', serif" }}>
               Create Your Client Account
             </h1>
             {serviceType && (
@@ -220,7 +220,8 @@ export default function ClientRegisterForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-4 py-3.5 bg-[#D4AF50] text-black rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] disabled:opacity-50 disabled:cursor-not-allowed golden-highlight"
+                className="w-full px-4 py-3.5 bg-[#D4AF50] text-black rounded-md text-base font-bold tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] disabled:opacity-50 disabled:cursor-not-allowed golden-highlight"
+                style={{ fontFamily: "'Lora', serif" }}
               >
                 {loading ? 'Creating account...' : 'Create Account'}
               </button>

@@ -64,7 +64,7 @@ export default function ManagerLogin() {
       <div className="max-w-md w-full">
         <div className="bg-white p-12 rounded-xl shadow-lg">
           <div className="mb-8">
-            <h1 className="font-serif text-4xl text-center text-[#D4AF50] mb-2">
+            <h1 className="text-4xl text-center text-[#D4AF50] mb-2" style={{ fontFamily: "'Lora', serif" }}>
               Admin Login
             </h1>
             <p className="text-center text-sm text-[#3C4033]">
@@ -115,7 +115,8 @@ export default function ManagerLogin() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-4 py-3.5 bg-[#D4AF50] text-black rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3.5 bg-[#D4AF50] text-black rounded-md text-base font-bold tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ fontFamily: "'Lora', serif" }}
               >
                 {loading ? 'Signing in...' : 'Sign in'}
               </button>
