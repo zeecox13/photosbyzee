@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -53,24 +52,16 @@ export default function PublicNavbar() {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 py-5 transition-all duration-300 ${navBg}`}>
       <div className="max-w-7xl mx-auto px-5">
-        <div className="flex items-center justify-between gap-4">
-          {/* Logo - Left side */}
-          <Link href="/" className="flex items-center flex-shrink-0">
-            <div className="relative w-12 h-12 flex items-center justify-center">
-              <Image
-                src="/logo.png"
-                alt="Photos by Zee"
-                width={48}
-                height={48}
-                className="object-contain"
-                priority
-                unoptimized
-              />
-            </div>
+        <div className="flex items-center justify-between">
+          {/* Left side - "Photos by Zee" text */}
+          <Link href="/" className="flex-shrink-0">
+            <span className={`${navTextColor} font-serif text-xl font-normal tracking-wide`} style={{ textShadow }}>
+              Photos by Zee
+            </span>
           </Link>
 
-          {/* Navigation Links - Center */}
-          <div className="flex items-center gap-8 flex-1 justify-center">
+          {/* Center - Navigation Links */}
+          <div className="flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
             <Link
               href="/"
               className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
@@ -115,16 +106,6 @@ export default function PublicNavbar() {
             >
               Contact
             </Link>
-          </div>
-
-          {/* Right side - Buttons */}
-          <div className="flex items-center gap-4 flex-shrink-0">
-            <Link
-              href="/services"
-              className="px-6 py-2.5 bg-[#D4AF50] text-black rounded-full text-base font-medium tracking-wide transition-all duration-300 hover:bg-[#B8943A] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
-            >
-              Book Now
-            </Link>
             <Link
               href="/client/login"
               className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
@@ -135,6 +116,16 @@ export default function PublicNavbar() {
               style={{ textShadow }}
             >
               Client Login
+            </Link>
+          </div>
+
+          {/* Right side - Book Now button */}
+          <div className="flex-shrink-0">
+            <Link
+              href="/services"
+              className="px-6 py-2.5 bg-[#D4AF50] text-black rounded-full text-base font-medium tracking-wide transition-all duration-300 hover:bg-[#B8943A] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
+            >
+              Book Now
             </Link>
           </div>
         </div>
