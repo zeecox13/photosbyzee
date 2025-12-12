@@ -5,8 +5,6 @@ import ClientRegisterForm from './ClientRegisterForm';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// This page uses useSearchParams() which requires Suspense boundary
-
 export default function ClientRegister() {
   return (
     <Suspense fallback={
