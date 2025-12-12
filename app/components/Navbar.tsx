@@ -38,84 +38,91 @@ export default function PublicNavbar() {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 py-5 transition-all duration-300 ${navBg}`}>
-      <div className="max-w-7xl mx-auto px-5 h-full">
-        <div className="flex justify-center items-center gap-10 flex-wrap h-full">
-          {/* Logo */}
-          <Link href="/" className="flex items-center h-full py-0">
-            <div className="relative w-12 h-12 flex items-center justify-center m-0 p-0" style={{ lineHeight: 0, margin: 0, padding: 0 }}>
+      <div className="max-w-7xl mx-auto px-5">
+        <div className="flex items-center justify-between gap-4">
+          {/* Logo - Left side */}
+          <Link href="/" className="flex items-center flex-shrink-0">
+            <div className="relative w-12 h-12 flex items-center justify-center">
               <Image
                 src="/logo.png"
                 alt="Photos by Zee"
                 width={48}
                 height={48}
-                className="object-contain m-0 p-0"
-                style={{ width: '48px', height: '48px', display: 'block', margin: 0, padding: 0, verticalAlign: 'middle' }}
+                className="object-contain"
                 priority
                 unoptimized
               />
             </div>
           </Link>
-          <Link
-            href="/"
-            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
-              isActive('/')
-                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
-                : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
-            }`}
-            style={{ textShadow }}
-          >
-            Home
-          </Link>
-          <Link
-            href="/portfolio"
-            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
-              isActive('/portfolio')
-                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
-                : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
-            }`}
-            style={{ textShadow }}
-          >
-            Portfolio
-          </Link>
-          <Link
-            href="/services"
-            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
-              isActive('/services')
-                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
-                : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
-            }`}
-            style={{ textShadow }}
-          >
-            Services
-          </Link>
-          <Link
-            href="/contact"
-            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
-              isActive('/contact')
-                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
-                : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
-            }`}
-            style={{ textShadow }}
-          >
-            Contact
-          </Link>
-          <Link
-            href="/services"
-            className="px-6 py-2.5 bg-[#D4AF50] text-black rounded-full text-base font-medium tracking-wide transition-all duration-300 hover:bg-[#B8943A] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
-          >
-            Book Now
-          </Link>
-          <Link
-            href="/client/login"
-            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
-              isActive('/client/login')
-                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
-                : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
-            }`}
-            style={{ textShadow }}
-          >
-            Client Login
-          </Link>
+
+          {/* Navigation Links - Center */}
+          <div className="flex items-center gap-8 flex-1 justify-center">
+            <Link
+              href="/"
+              className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
+                isActive('/')
+                  ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
+                  : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
+              }`}
+              style={{ textShadow }}
+            >
+              Home
+            </Link>
+            <Link
+              href="/portfolio"
+              className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
+                isActive('/portfolio')
+                  ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
+                  : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
+              }`}
+              style={{ textShadow }}
+            >
+              Portfolio
+            </Link>
+            <Link
+              href="/services"
+              className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
+                isActive('/services')
+                  ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
+                  : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
+              }`}
+              style={{ textShadow }}
+            >
+              Services
+            </Link>
+            <Link
+              href="/contact"
+              className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
+                isActive('/contact')
+                  ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
+                  : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
+              }`}
+              style={{ textShadow }}
+            >
+              Contact
+            </Link>
+          </div>
+
+          {/* Right side - Buttons */}
+          <div className="flex items-center gap-4 flex-shrink-0">
+            <Link
+              href="/services"
+              className="px-6 py-2.5 bg-[#D4AF50] text-black rounded-full text-base font-medium tracking-wide transition-all duration-300 hover:bg-[#B8943A] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
+            >
+              Book Now
+            </Link>
+            <Link
+              href="/client/login"
+              className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
+                isActive('/client/login')
+                  ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
+                  : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
+              }`}
+              style={{ textShadow }}
+            >
+              Client Login
+            </Link>
+          </div>
         </div>
       </div>
     </nav>
