@@ -89,17 +89,19 @@ export default function ClientRegister() {
         <div className="bg-white p-12 rounded-xl shadow-lg">
           {/* Logo */}
           <div className="mb-4 flex justify-center">
-            <div className="relative w-40 h-24 -translate-y-[65%] scale-110">
-              <Image
-                src="/logo.png"
-                alt="Photos by Zee Logo"
-                width={160}
-                height={96}
-                className="object-contain"
-                priority
-                unoptimized
-              />
-            </div>
+            <Link href="/" className="cursor-pointer">
+              <div className="relative w-40 h-24 -translate-y-[50%] scale-[1.045]">
+                <Image
+                  src="/logo.png"
+                  alt="Photos by Zee Logo"
+                  width={160}
+                  height={96}
+                  className="object-contain"
+                  priority
+                  unoptimized
+                />
+              </div>
+            </Link>
           </div>
 
           <div className="mb-8">
