@@ -1,23 +1,23 @@
-import { Suspense } from 'react';
-import ClientRegisterForm from './ClientRegisterForm';
+'use client';
 
-// Force dynamic rendering - this must be in a server component
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 
-export default function ClientRegister() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#F8F7F1]">
-        <div className="text-center">
-          <div className="text-[#D4AF50] text-lg">Loading...</div>
-        </div>
-      </div>
-    }>
-      <ClientRegisterForm />
-    </Suspense>
-  );
-}
+export default function ClientRegisterForm() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [location, setLocation] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const serviceType = searchParams.get('serviceType');
+  const price = searchParams.get('price');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -259,20 +259,6 @@ export default function ClientRegister() {
         </div>
       </div>
     </div>
-  );
-}
-
-export default function ClientRegister() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#F8F7F1]">
-        <div className="text-center">
-          <div className="text-[#D4AF50] text-lg">Loading...</div>
-        </div>
-      </div>
-    }>
-      <ClientRegisterForm />
-    </Suspense>
   );
 }
 
