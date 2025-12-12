@@ -1,8 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { format, addDays, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isPast } from 'date-fns';
+
+// Force dynamic rendering to avoid static generation issues
+export const dynamic = 'force-dynamic';
 
 interface AvailabilitySlot {
   id: string;
@@ -11,7 +14,7 @@ interface AvailabilitySlot {
   isRecurring: boolean;
 }
 
-export default function BookingPage() {
+function BookingPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const serviceType = searchParams.get('serviceType') || '';
@@ -246,6 +249,20 @@ export default function BookingPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#F8F7F1]">
+        <div className="text-center">
+          <div className="text-[#D4AF50] text-lg">Loading...</div>
+        </div>
+      </div>
+    }>
+      <BookingPageContent />
+    </Suspense>
   );
 }
 
