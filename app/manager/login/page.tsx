@@ -31,6 +31,23 @@ export default function ManagerLogin() {
       const data = await response.json();
 
       if (response.ok) {
+        // #region agent log
+        // Debug: manager login success
+        fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId: 'debug-session',
+            runId: 'pre-fix',
+            hypothesisId: 'H5',
+            location: 'app/manager/login/page.tsx:line34',
+            message: 'Manager login succeeded',
+            data: { hasUser: !!data.user, role: data.user?.role },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+        // #endregion
+
         router.push('/admin/dashboard');
       } else {
         setError(data.error || 'Login failed');
@@ -47,7 +64,7 @@ export default function ManagerLogin() {
       <div className="max-w-md w-full">
         <div className="bg-white p-12 rounded-xl shadow-lg">
           <div className="mb-8">
-            <h1 className="font-serif text-4xl text-center text-[#6B705C] mb-2">
+            <h1 className="font-serif text-4xl text-center text-[#D4AF50] mb-2">
               Admin Login
             </h1>
             <p className="text-center text-sm text-[#3C4033]">
@@ -65,7 +82,7 @@ export default function ManagerLogin() {
                 type="email"
                 autoComplete="email"
                 required
-                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all focus:outline-none focus:border-[#6B705C] focus:ring-2 focus:ring-[#6B705C]/20"
+                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all focus:outline-none focus:border-[#D4AF50] focus:ring-2 focus:ring-[#D4AF50]/20"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -81,7 +98,7 @@ export default function ManagerLogin() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all focus:outline-none focus:border-[#6B705C] focus:ring-2 focus:ring-[#6B705C]/20"
+                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all focus:outline-none focus:border-[#D4AF50] focus:ring-2 focus:ring-[#D4AF50]/20"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -98,7 +115,7 @@ export default function ManagerLogin() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-4 py-3.5 bg-[#6B705C] text-white rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#5A5E4F] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3.5 bg-[#D4AF50] text-black rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Signing in...' : 'Sign in'}
               </button>

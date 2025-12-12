@@ -8,13 +8,13 @@ export default async function AdminDashboard() {
   const user = await getCurrentUser();
 
   if (!user || user.role !== 'MANAGER') {
-    redirect('/admin/login');
+    redirect('/admin');
   }
 
   return (
     <div className="min-h-screen bg-[#F4F1EA] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="font-serif text-5xl text-[#6B705C] mb-4">
+        <h1 className="font-serif text-5xl text-[#D4AF50] mb-4">
           Manager Dashboard
         </h1>
         <p className="text-lg text-[#3C4033]">

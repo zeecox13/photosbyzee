@@ -1,15 +1,14 @@
 /**
- * Client Login Page
+ * Admin Login Page - Accessible via direct URL only (not in public navbar)
+ * This uses the manager login API since admin/manager are the same role
  */
 
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import Image from 'next/image';
 
-export default function ClientLogin() {
+export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,8 +20,25 @@ export default function ClientLogin() {
     setError('');
     setLoading(true);
 
+    // #region agent log
+    // Debug: admin login attempt
+    fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: 'debug-session',
+        runId: 'pre-fix',
+        hypothesisId: 'H_ADMIN',
+        location: 'app/admin/page.tsx:line25',
+        message: 'Admin login attempt',
+        data: { hasEmail: !!email },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+
     try {
-      const response = await fetch('/api/auth/client/login', {
+      const response = await fetch('/api/auth/manager/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,23 +50,23 @@ export default function ClientLogin() {
 
       if (response.ok) {
         // #region agent log
-        // Debug: client login success
+        // Debug: admin login success
         fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             sessionId: 'debug-session',
             runId: 'pre-fix',
-            hypothesisId: 'H4',
-            location: 'app/client/login/page.tsx:line34',
-            message: 'Client login succeeded',
+            hypothesisId: 'H_ADMIN',
+            location: 'app/admin/page.tsx:line50',
+            message: 'Admin login succeeded',
             data: { hasUser: !!data.user, role: data.user?.role },
             timestamp: Date.now(),
           }),
         }).catch(() => {});
         // #endregion
 
-        router.push('/client/dashboard');
+        router.push('/admin/dashboard');
       } else {
         setError(data.error || 'Login failed');
       }
@@ -65,27 +81,12 @@ export default function ClientLogin() {
     <div className="min-h-screen flex items-center justify-center bg-[#F8F7F1] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
         <div className="bg-white p-12 rounded-xl shadow-lg">
-          {/* Logo */}
-          <div className="mb-4 flex justify-center">
-            <div className="relative w-40 h-24 -translate-y-[65%] scale-110">
-              <Image
-                src="/logo.png"
-                alt="Photos by Zee Logo"
-                width={160}
-                height={96}
-                className="object-contain"
-                priority
-                unoptimized
-              />
-            </div>
-          </div>
-
           <div className="mb-8">
             <h1 className="font-serif text-4xl text-center text-[#D4AF50] mb-2">
-              Client Login
+              Admin Login
             </h1>
             <p className="text-center text-sm text-[#3C4033]">
-              Access your galleries and bookings
+              Secure admin access only
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -132,40 +133,10 @@ export default function ClientLogin() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-4 py-3.5 bg-[#D4AF50] text-black rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] disabled:opacity-50 disabled:cursor-not-allowed golden-highlight"
+                className="w-full px-4 py-3.5 bg-[#D4AF50] text-black rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Signing in...' : 'Sign in'}
               </button>
-            </div>
-
-            {/* Security Indicator - Smaller, below button */}
-            <div className="flex items-center justify-center gap-1.5 text-xs text-[#D4AF50]">
-              <svg
-                className="w-3.5 h-3.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-              <span className="text-[#3C4033]">Secure Login</span>
-              <span className="text-[#3C4033]">•</span>
-              <span className="text-[#3C4033]">SSL Encrypted</span>
-            </div>
-
-            <div className="text-center">
-              <p className="text-sm text-[#3C4033]">
-                Don&apos;t have an account?{' '}
-                <Link href="/client/register" className="text-[#D4AF50] hover:underline">
-                  Create one
-                </Link>
-              </p>
             </div>
           </form>
         </div>

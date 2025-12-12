@@ -1,21 +1,42 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ClientRegister() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [location, setLocation] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const serviceType = searchParams.get('serviceType');
+  const price = searchParams.get('price');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (!name.trim()) {
+      setError('Name is required');
+      return;
+    }
+
+    if (!phone.trim()) {
+      setError('Phone number is required');
+      return;
+    }
+
+    if (!location.trim()) {
+      setError('City/State location is required');
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError("Passwords don't match");
@@ -35,15 +56,25 @@ export default function ClientRegister() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password, confirmPassword }),
+        body: JSON.stringify({ name, email, password, confirmPassword, phone, location }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        router.push('/client/dashboard');
+        // Store token in localStorage
+        if (data.token) {
+          localStorage.setItem('clientToken', data.token);
+        }
+
+        // If coming from booking flow, redirect to booking page
+        if (serviceType && price) {
+          router.push(`/client/booking?serviceType=${encodeURIComponent(serviceType)}&price=${encodeURIComponent(price)}`);
+        } else {
+          router.push('/client/dashboard');
+        }
       } else {
-        setError(data.error || 'Registration failed');
+        setError(data.error || 'Registration failed. Please try again.');
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
@@ -56,22 +87,44 @@ export default function ClientRegister() {
     <div className="min-h-screen flex items-center justify-center bg-[#F8F7F1] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
         <div className="bg-white p-12 rounded-xl shadow-lg">
+          {/* Logo */}
+          <div className="mb-4 flex justify-center">
+            <div className="relative w-40 h-24 -translate-y-[65%] scale-110">
+              <Image
+                src="/logo.png"
+                alt="Photos by Zee Logo"
+                width={160}
+                height={96}
+                className="object-contain"
+                priority
+                unoptimized
+              />
+            </div>
+          </div>
+
           <div className="mb-8">
-            <h1 className="font-serif text-4xl text-center text-[#6B705C] mb-2">
+            <h1 className="font-serif text-4xl text-center text-[#D4AF50] mb-2">
               Create Your Client Account
             </h1>
+            {serviceType && (
+              <p className="text-center text-sm text-[#3C4033] mt-2">
+                Booking: {serviceType} - {price}
+              </p>
+            )}
           </div>
+
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block mb-2 text-[#3C4033] font-medium text-sm">
-                Name (optional)
+                Full Name *
               </label>
               <input
                 id="name"
                 name="name"
                 type="text"
-                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all focus:outline-none focus:border-[#6B705C] focus:ring-2 focus:ring-[#6B705C]/20"
-                placeholder="Your name"
+                required
+                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all duration-300 focus:outline-none focus:border-[#D4AF50] focus:ring-2 focus:ring-[#D4AF50]/20 hover:border-[#D4AF50]/50"
+                placeholder="Your full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -86,10 +139,40 @@ export default function ClientRegister() {
                 type="email"
                 autoComplete="email"
                 required
-                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all focus:outline-none focus:border-[#6B705C] focus:ring-2 focus:ring-[#6B705C]/20"
+                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all duration-300 focus:outline-none focus:border-[#D4AF50] focus:ring-2 focus:ring-[#D4AF50]/20 hover:border-[#D4AF50]/50"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="phone" className="block mb-2 text-[#3C4033] font-medium text-sm">
+                Phone Number *
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all duration-300 focus:outline-none focus:border-[#D4AF50] focus:ring-2 focus:ring-[#D4AF50]/20 hover:border-[#D4AF50]/50"
+                placeholder="(555) 123-4567"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="location" className="block mb-2 text-[#3C4033] font-medium text-sm">
+                City, State *
+              </label>
+              <input
+                id="location"
+                name="location"
+                type="text"
+                required
+                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all duration-300 focus:outline-none focus:border-[#D4AF50] focus:ring-2 focus:ring-[#D4AF50]/20 hover:border-[#D4AF50]/50"
+                placeholder="City, State (e.g., Minneapolis, MN)"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
               />
             </div>
             <div>
@@ -102,7 +185,7 @@ export default function ClientRegister() {
                 type="password"
                 autoComplete="new-password"
                 required
-                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all focus:outline-none focus:border-[#6B705C] focus:ring-2 focus:ring-[#6B705C]/20"
+                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all duration-300 focus:outline-none focus:border-[#D4AF50] focus:ring-2 focus:ring-[#D4AF50]/20 hover:border-[#D4AF50]/50"
                 placeholder="Password (min 8 characters)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -118,7 +201,7 @@ export default function ClientRegister() {
                 type="password"
                 autoComplete="new-password"
                 required
-                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all focus:outline-none focus:border-[#6B705C] focus:ring-2 focus:ring-[#6B705C]/20"
+                className="w-full px-4 py-3.5 border-[1.5px] border-[#B7B7A4] rounded-md text-base bg-white text-[#3C4033] transition-all duration-300 focus:outline-none focus:border-[#D4AF50] focus:ring-2 focus:ring-[#D4AF50]/20 hover:border-[#D4AF50]/50"
                 placeholder="Confirm password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -135,16 +218,37 @@ export default function ClientRegister() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-4 py-3.5 bg-[#6B705C] text-white rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#5A5E4F] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3.5 bg-[#D4AF50] text-black rounded-md text-base font-medium tracking-wide uppercase transition-all duration-300 hover:bg-[#B8943A] disabled:opacity-50 disabled:cursor-not-allowed golden-highlight"
               >
                 {loading ? 'Creating account...' : 'Create Account'}
               </button>
             </div>
 
+            {/* Security Indicator - Smaller, below button */}
+            <div className="flex items-center justify-center gap-1.5 text-xs text-[#D4AF50]">
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+              <span className="text-[#3C4033]">Secure Registration</span>
+              <span className="text-[#3C4033]">•</span>
+              <span className="text-[#3C4033]">SSL Encrypted</span>
+            </div>
+
             <div className="text-center">
               <p className="text-sm text-[#3C4033]">
                 Already have an account?{' '}
-                <Link href="/client/login" className="text-[#6B705C] hover:underline">
+                <Link href="/client/login" className="text-[#D4AF50] hover:underline">
                   Log in
                 </Link>
               </p>

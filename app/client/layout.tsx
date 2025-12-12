@@ -6,7 +6,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 export default function ClientLayout({
@@ -18,14 +18,41 @@ export default function ClientLayout({
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Don't require auth for login and register pages
+  const isPublicPage = pathname === '/client/login' || pathname === '/client/register';
 
   useEffect(() => {
+    if (isPublicPage) {
+      setLoading(false);
+      return;
+    }
     checkAuth();
-  }, []);
+  }, [isPublicPage]);
 
   const checkAuth = async () => {
     const token = localStorage.getItem('clientToken');
+
+    // #region agent log
+    // Debug: client layout auth check start
+    fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: 'debug-session',
+        runId: 'pre-fix',
+        hypothesisId: 'H2',
+        location: 'app/client/layout.tsx:line27',
+        message: 'ClientLayout checkAuth start',
+        data: { hasToken: !!token },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+
     if (!token) {
+      setLoading(false);
       router.push('/client/login');
       return;
     }
@@ -43,12 +70,15 @@ export default function ClientLayout({
           setIsAuthenticated(true);
           setUser(data.user);
         } else {
+          setLoading(false);
           router.push('/client/login');
         }
       } else {
+        setLoading(false);
         router.push('/client/login');
       }
     } catch (error) {
+      setLoading(false);
       router.push('/client/login');
     } finally {
       setLoading(false);
@@ -59,6 +89,11 @@ export default function ClientLayout({
     localStorage.removeItem('clientToken');
     router.push('/client/login');
   };
+
+  // Allow login and register pages to render without auth
+  if (isPublicPage) {
+    return <>{children}</>;
+  }
 
   if (loading) {
     return (
@@ -85,7 +120,7 @@ export default function ClientLayout({
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                 <Link
-                  href="/client"
+                  href="/client/dashboard"
                   className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
                 >
                   Dashboard

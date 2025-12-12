@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -9,11 +10,7 @@ export default function PublicNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const isHomePage = pathname === '/';
 
-  // Don't show navbar on client, manager, or admin pages
-  if (pathname.startsWith('/client') || pathname.startsWith('/manager') || pathname.startsWith('/admin')) {
-    return null;
-  }
-
+  // All hooks must be called before any conditional returns
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -22,15 +19,34 @@ export default function PublicNavbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleBookNowClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (pathname === '/') {
-      e.preventDefault();
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
+  // #region agent log
+  // Debug: navbar layout and button visibility
+  useEffect(() => {
+    fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: 'debug-session',
+        runId: 'post-fix',
+        hypothesisId: 'H_NAVBAR',
+        location: 'app/components/Navbar.tsx:line20',
+        message: 'Navbar layout rendered',
+        data: {
+          pathname,
+          hasClientLogin: true,
+          hasAdminLogin: false,
+          navItemCount: 6, // Home, Portfolio, Services, Contact, Book Now, Client Login
+        },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+  }, [pathname]);
+  // #endregion
+
+  // Don't show navbar on client, manager, or admin pages (after all hooks)
+  if (pathname.startsWith('/client') || pathname.startsWith('/manager') || pathname.startsWith('/admin')) {
+    return null;
+  }
 
   const isActive = (path: string) => {
     if (path === '/' && pathname === '/') return true;
@@ -38,20 +54,35 @@ export default function PublicNavbar() {
     return false;
   };
 
-  const navTextColor = isHomePage && !scrolled ? 'text-white' : 'text-gray-800';
-  const navBg = scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent';
-  const textShadow = isHomePage && !scrolled ? '0 2px 4px rgba(0, 0, 0, 0.5)' : 'none';
+  const navTextColor = 'text-gray-800';
+  const navBg = scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-white/30 backdrop-blur-sm';
+  const textShadow = 'none';
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 py-5 transition-all duration-300 ${navBg}`}>
-      <div className="max-w-7xl mx-auto px-5">
-        <div className="flex justify-center items-center gap-10 flex-wrap">
+      <div className="max-w-7xl mx-auto px-5 h-full">
+        <div className="flex justify-center items-center gap-10 flex-wrap h-full">
+          {/* Logo */}
+          <Link href="/" className="flex items-center h-full py-0">
+            <div className="relative w-12 h-12 flex items-center justify-center m-0 p-0" style={{ lineHeight: 0, margin: 0, padding: 0 }}>
+              <Image
+                src="/logo.png"
+                alt="Photos by Zee"
+                width={48}
+                height={48}
+                className="object-contain m-0 p-0"
+                style={{ width: '48px', height: '48px', display: 'block', margin: 0, padding: 0, verticalAlign: 'middle' }}
+                priority
+                unoptimized
+              />
+            </div>
+          </Link>
           <Link
             href="/"
-            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative ${
+            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
               isActive('/')
-                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#6B705C]'
-                : ''
+                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
+                : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
             }`}
             style={{ textShadow }}
           >
@@ -59,10 +90,10 @@ export default function PublicNavbar() {
           </Link>
           <Link
             href="/portfolio"
-            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative ${
+            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
               isActive('/portfolio')
-                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#6B705C]'
-                : ''
+                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
+                : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
             }`}
             style={{ textShadow }}
           >
@@ -70,10 +101,10 @@ export default function PublicNavbar() {
           </Link>
           <Link
             href="/services"
-            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative ${
+            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
               isActive('/services')
-                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#6B705C]'
-                : ''
+                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
+                : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
             }`}
             style={{ textShadow }}
           >
@@ -81,28 +112,31 @@ export default function PublicNavbar() {
           </Link>
           <Link
             href="/contact"
-            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative ${
+            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
               isActive('/contact')
-                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#6B705C]'
-                : ''
+                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
+                : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
             }`}
             style={{ textShadow }}
           >
             Contact
           </Link>
           <Link
-            href={pathname === '/' ? '#contact' : '/#contact'}
-            onClick={handleBookNowClick}
-            className="px-6 py-2.5 bg-[#6B705C] text-white rounded-full text-base font-medium tracking-wide transition-all duration-300 hover:bg-[#5A5E4F] hover:shadow-lg ml-5"
+            href="/services"
+            className="px-6 py-2.5 bg-[#D4AF50] text-black rounded-full text-base font-medium tracking-wide transition-all duration-300 hover:bg-[#B8943A] hover:shadow-elegant hover:scale-105 active:scale-100 golden-highlight"
           >
             Book Now
           </Link>
           <Link
-            href="/admin/login"
-            className={`${navTextColor} text-sm font-normal tracking-wide transition-all duration-300 opacity-80 hover:opacity-100 ml-5`}
+            href="/client/login"
+            className={`${navTextColor} text-base font-normal tracking-wide transition-all duration-300 relative group ${
+              isActive('/client/login')
+                ? 'font-semibold after:absolute after:bottom-[-5px] after:left-0 after:w-full after:h-[1px] after:bg-[#D4AF50]'
+                : 'after:absolute after:bottom-[-5px] after:left-1/2 after:w-0 after:h-[1px] after:bg-[#D4AF50] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
+            }`}
             style={{ textShadow }}
           >
-            Admin Login
+            Client Login
           </Link>
         </div>
       </div>

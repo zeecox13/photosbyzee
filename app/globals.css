@@ -4,6 +4,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap');
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,12 +15,62 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
+/* Scroll Progress Indicator */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #D4AF50, #E8C870);
+  z-index: 9999;
+  transition: width 0.1s ease-out;
+}
+
+/* Delicate fern/vine background pattern - olive green, edges only */
+.bg-pattern-delicate {
+  position: relative;
+}
+
+.bg-pattern-delicate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='500' height='500' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='fern' x='0' y='0' width='500' height='500' patternUnits='userSpaceOnUse'%3E%3Cg opacity='0.28'%3E%3Cpath d='M120 380 L120 220 M120 300 Q110 290 105 285 T100 280 M120 300 Q130 290 135 285 T140 280 M120 280 Q112 270 108 265 T104 260 M120 280 Q128 270 132 265 T136 260 M120 260 Q115 250 112 245 T109 240 M120 260 Q125 250 128 245 T131 240 M120 240 Q113 230 110 225 T107 220' stroke='%236B705C' stroke-width='0.9' fill='none' stroke-linecap='round'/%3E%3Cpath d='M120 240 Q127 230 130 225 T133 220' stroke='%236B705C' stroke-width='0.9' fill='none' stroke-linecap='round'/%3E%3Cpath d='M250 400 L250 260 M250 330 Q240 320 235 315 T230 310 M250 330 Q260 320 265 315 T270 310 M250 310 Q242 300 238 295 T234 290 M250 310 Q258 300 262 295 T266 290 M250 290 Q245 280 242 275 T239 270 M250 290 Q255 280 258 275 T261 270 M250 270 Q243 260 240 255 T237 250 M250 270 Q257 260 260 255 T263 250' stroke='%236B705C' stroke-width='0.8' fill='none' stroke-linecap='round'/%3E%3Cpath d='M380 360 L380 200 M380 280 Q370 270 365 265 T360 260 M380 280 Q390 270 395 265 T400 260 M380 260 Q372 250 368 245 T364 240 M380 260 Q388 250 392 245 T396 240 M380 240 Q375 230 372 225 T369 220 M380 240 Q385 230 388 225 T391 220 M380 220 Q373 210 370 205 T367 200' stroke='%236B705C' stroke-width='0.7' fill='none' stroke-linecap='round'/%3E%3Cpath d='M380 220 Q387 210 390 205 T393 200' stroke='%236B705C' stroke-width='0.7' fill='none' stroke-linecap='round'/%3E%3C/g%3E%3Cg opacity='0.26'%3E%3Cpath d='M60 280 L60 140 M60 210 Q50 200 45 195 T40 190 M60 210 Q70 200 75 195 T80 190 M60 190 Q52 180 48 175 T44 170 M60 190 Q68 180 72 175 T76 170 M60 170 Q55 160 52 155 T49 150 M60 170 Q65 160 68 155 T71 150 M60 150 Q53 140 50 135 T47 130' stroke='%236B705C' stroke-width='0.7' fill='none' stroke-linecap='round'/%3E%3Cpath d='M60 150 Q67 140 70 135 T73 130' stroke='%236B705C' stroke-width='0.7' fill='none' stroke-linecap='round'/%3E%3Cpath d='M320 340 L320 200 M320 270 Q310 260 305 255 T300 250 M320 270 Q330 260 335 255 T340 250 M320 250 Q312 240 308 235 T304 230 M320 250 Q328 240 332 235 T336 230 M320 230 Q315 220 312 215 T309 210 M320 230 Q325 220 328 215 T331 210 M320 210 Q313 200 310 195 T307 190' stroke='%236B705C' stroke-width='0.6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M320 210 Q327 200 330 195 T333 190' stroke='%236B705C' stroke-width='0.6' fill='none' stroke-linecap='round'/%3E%3C/g%3E%3Cg opacity='0.24'%3E%3Cpath d='M180 200 L180 80 M180 140 Q170 130 165 125 T160 120 M180 140 Q190 130 195 125 T200 120 M180 120 Q172 110 168 105 T164 100 M180 120 Q188 110 192 105 T196 100 M180 100 Q175 90 172 85 T169 80' stroke='%236B705C' stroke-width='0.6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M180 100 Q187 90 190 85 T193 80' stroke='%236B705C' stroke-width='0.6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M440 300 L440 160 M440 230 Q430 220 425 215 T420 210 M440 230 Q450 220 455 215 T460 210 M440 210 Q432 200 428 195 T424 190 M440 210 Q448 200 452 195 T456 190 M440 190 Q435 180 432 175 T429 170 M440 190 Q445 180 448 175 T451 170 M440 170 Q433 160 430 155 T427 150' stroke='%236B705C' stroke-width='0.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M440 170 Q447 160 450 155 T453 150' stroke='%236B705C' stroke-width='0.5' fill='none' stroke-linecap='round'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='500' height='500' fill='url(%23fern)'/%3E%3C/svg%3E");
+  background-size: 700px 700px;
+  background-position: 0 0;
+  background-repeat: repeat;
+  mask-image: radial-gradient(ellipse at center, transparent 30%, black 60%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 30%, black 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-pattern-delicate > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure white boxes and cards appear above pattern */
+.bg-pattern-delicate .bg-white,
+.bg-pattern-delicate [class*="bg-white"],
+.bg-pattern-delicate [class*="rounded"] {
+  position: relative;
+  z-index: 1;
+}
+
+/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -24,7 +78,94 @@ body {
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .animate-fadeInUp {
-  animation: fadeInUp 1s ease-out;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-out;
+}
+
+.animate-slideInLeft {
+  animation: slideInFromLeft 0.8s ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.6s ease-out;
+}
+
+/* Staggered animation delays */
+.animate-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animate-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animate-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animate-delay-400 {
+  animation-delay: 0.4s;
+}
+
+.animate-delay-500 {
+  animation-delay: 0.5s;
+}
+
+/* Custom utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .shadow-soft {
+    box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04);
+  }
+  
+  .shadow-elegant {
+    box-shadow: 0 4px 20px -2px rgba(212, 175, 80, 0.15), 0 2px 8px -2px rgba(212, 175, 80, 0.1);
+  }
+  
+  .golden-highlight {
+    box-shadow: 0 0 0 2px rgba(212, 175, 80, 0.3), 0 0 15px rgba(212, 175, 80, 0.4), 0 4px 20px -2px rgba(212, 175, 80, 0.2);
+  }
+  
+  .golden-highlight:hover {
+    box-shadow: 0 0 0 2px rgba(212, 175, 80, 0.5), 0 0 20px rgba(212, 175, 80, 0.6), 0 6px 25px -2px rgba(212, 175, 80, 0.3);
+  }
 }
 

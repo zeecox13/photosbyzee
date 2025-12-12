@@ -20,6 +20,7 @@ model User {
   firstName     String?   @map("first_name")
   lastName      String?   @map("last_name")
   phone         String?
+  location      String?   // City, State location
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
