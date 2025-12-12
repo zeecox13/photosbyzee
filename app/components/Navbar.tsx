@@ -8,7 +8,12 @@ import { useEffect, useState } from 'react';
 export default function PublicNavbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const isHomePage = pathname === '/';
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // All hooks must be called before any conditional returns
   useEffect(() => {
@@ -27,7 +32,11 @@ export default function PublicNavbar() {
   // Debug logging removed - was causing issues on Vercel
 
   // Don't show navbar on client, manager, or admin pages (after all hooks)
-  if (pathname.startsWith('/client') || pathname.startsWith('/manager') || pathname.startsWith('/admin')) {
+  if (!mounted) {
+    return null; // Prevent hydration mismatch
+  }
+
+  if (pathname?.startsWith('/client') || pathname?.startsWith('/manager') || pathname?.startsWith('/admin')) {
     return null;
   }
 
