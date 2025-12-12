@@ -55,7 +55,7 @@ export default function PublicNavbar() {
         <div className="flex items-center justify-between">
           {/* Left side - "Photos by Zee" text */}
           <Link href="/" className="flex-shrink-0">
-            <span className={`${navTextColor} font-serif text-xl font-normal tracking-wide`} style={{ textShadow }}>
+            <span className={`${navTextColor} text-xl font-normal tracking-wide`} style={{ textShadow, fontFamily: "'Lora', serif" }}>
               Photos by Zee
             </span>
           </Link>
