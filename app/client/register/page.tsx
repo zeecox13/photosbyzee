@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function ClientRegister() {
+function ClientRegisterForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -259,6 +259,20 @@ export default function ClientRegister() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ClientRegister() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#F8F7F1]">
+        <div className="text-center">
+          <div className="text-[#D4AF50] text-lg">Loading...</div>
+        </div>
+      </div>
+    }>
+      <ClientRegisterForm />
+    </Suspense>
   );
 }
 
