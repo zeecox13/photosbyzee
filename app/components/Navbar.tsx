@@ -19,29 +19,7 @@ export default function PublicNavbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // #region agent log
-  // Debug: navbar layout and button visibility
-  useEffect(() => {
-    fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sessionId: 'debug-session',
-        runId: 'post-fix',
-        hypothesisId: 'H_NAVBAR',
-        location: 'app/components/Navbar.tsx:line20',
-        message: 'Navbar layout rendered',
-        data: {
-          pathname,
-          hasClientLogin: true,
-          hasAdminLogin: false,
-          navItemCount: 6, // Home, Portfolio, Services, Contact, Book Now, Client Login
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-  }, [pathname]);
-  // #endregion
+  // Debug logging removed - was causing issues on Vercel
 
   // Don't show navbar on client, manager, or admin pages (after all hooks)
   if (pathname.startsWith('/client') || pathname.startsWith('/manager') || pathname.startsWith('/admin')) {
