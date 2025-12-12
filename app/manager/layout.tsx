@@ -26,23 +26,6 @@ export default function ManagerLayout({
   const checkAuth = async () => {
     const token = localStorage.getItem('managerToken');
 
-    // #region agent log
-    // Debug: manager layout auth check start
-    fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sessionId: 'debug-session',
-        runId: 'pre-fix',
-        hypothesisId: 'H3',
-        location: 'app/manager/layout.tsx:line27',
-        message: 'ManagerLayout checkAuth start',
-        data: { hasToken: !!token },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-
     if (!token) {
       router.push('/manager/login');
       return;

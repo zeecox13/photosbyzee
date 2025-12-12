@@ -31,23 +31,6 @@ export default function ManagerLogin() {
       const data = await response.json();
 
       if (response.ok) {
-        // #region agent log
-        // Debug: manager login success
-        fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            sessionId: 'debug-session',
-            runId: 'pre-fix',
-            hypothesisId: 'H5',
-            location: 'app/manager/login/page.tsx:line34',
-            message: 'Manager login succeeded',
-            data: { hasUser: !!data.user, role: data.user?.role },
-            timestamp: Date.now(),
-          }),
-        }).catch(() => {});
-        // #endregion
-
         router.push('/admin/dashboard');
       } else {
         setError(data.error || 'Login failed');

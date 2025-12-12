@@ -20,23 +20,6 @@ export default function AdminLogin() {
     setError('');
     setLoading(true);
 
-    // #region agent log
-    // Debug: admin login attempt
-    fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sessionId: 'debug-session',
-        runId: 'pre-fix',
-        hypothesisId: 'H_ADMIN',
-        location: 'app/admin/page.tsx:line25',
-        message: 'Admin login attempt',
-        data: { hasEmail: !!email },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-
     try {
       const response = await fetch('/api/auth/manager/login', {
         method: 'POST',
@@ -49,23 +32,6 @@ export default function AdminLogin() {
       const data = await response.json();
 
       if (response.ok) {
-        // #region agent log
-        // Debug: admin login success
-        fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            sessionId: 'debug-session',
-            runId: 'pre-fix',
-            hypothesisId: 'H_ADMIN',
-            location: 'app/admin/page.tsx:line50',
-            message: 'Admin login succeeded',
-            data: { hasUser: !!data.user, role: data.user?.role },
-            timestamp: Date.now(),
-          }),
-        }).catch(() => {});
-        // #endregion
-
         router.push('/admin/dashboard');
       } else {
         setError(data.error || 'Login failed');

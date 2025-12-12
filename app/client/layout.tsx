@@ -34,23 +34,6 @@ export default function ClientLayout({
   const checkAuth = async () => {
     const token = localStorage.getItem('clientToken');
 
-    // #region agent log
-    // Debug: client layout auth check start
-    fetch('http://127.0.0.1:7242/ingest/6b3a9c97-156d-421c-ae40-eda6582fea87', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        sessionId: 'debug-session',
-        runId: 'pre-fix',
-        hypothesisId: 'H2',
-        location: 'app/client/layout.tsx:line27',
-        message: 'ClientLayout checkAuth start',
-        data: { hasToken: !!token },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-
     if (!token) {
       setLoading(false);
       router.push('/client/login');
