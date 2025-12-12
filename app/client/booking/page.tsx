@@ -4,8 +4,8 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { format, addDays, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isPast } from 'date-fns';
 
-// Force dynamic rendering to avoid static generation issues
-export const dynamic = 'force-dynamic';
+// Note: Route Segment Config (dynamic, revalidate) can only be used in Server Components.
+// This is a Client Component, so we rely on the layout.tsx for dynamic config.
 
 interface AvailabilitySlot {
   id: string;
