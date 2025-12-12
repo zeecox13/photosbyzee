@@ -12,10 +12,15 @@ export default function PublicNavbar() {
 
   // All hooks must be called before any conditional returns
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
+    
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
