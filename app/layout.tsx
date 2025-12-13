@@ -4,14 +4,15 @@ import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 // Dynamically import client components to avoid SSR issues
+// Using error boundaries to prevent crashes
 const PublicNavbar = dynamic(() => import('./components/Navbar'), {
   ssr: false,
-  loading: () => null, // Don't show anything while loading
+  loading: () => null,
 });
 
 const ScrollProgress = dynamic(() => import('./components/ScrollProgress'), {
   ssr: false,
-  loading: () => null, // Don't show anything while loading
+  loading: () => null,
 });
 
 export const metadata: Metadata = {
@@ -33,7 +34,9 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <PublicNavbar />
         </Suspense>
-        {children}
+        <Suspense fallback={<div>Loading...</div>}>
+          {children}
+        </Suspense>
       </body>
     </html>
   );
