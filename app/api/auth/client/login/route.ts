@@ -69,22 +69,25 @@ export async function POST(request: NextRequest) {
     return setAuthCookieInResponse(response, token);
   } catch (error: any) {
     console.error('Client login error:', error);
+    console.error('Error name:', error?.name);
+    console.error('Error message:', error?.message);
     console.error('Error stack:', error?.stack);
     console.error('JWT_SECRET exists:', !!process.env.JWT_SECRET);
     console.error('DATABASE_URL exists:', !!process.env.DATABASE_URL);
     
     // Return more specific error message for debugging
     const errorMessage = error?.message || 'Internal server error';
+    const errorName = error?.name || 'UnknownError';
     const errorStack = error?.stack || '';
     
-    // In production, still log but don't expose details to client
+    // Always show error details in response for debugging (we'll remove this later)
     return NextResponse.json(
       { 
         error: 'Internal server error',
-        // Only show details in development or if explicitly enabled
-        details: (process.env.NODE_ENV === 'development' || process.env.SHOW_ERROR_DETAILS === 'true') 
-          ? `${errorMessage}${errorStack ? `\nStack: ${errorStack.substring(0, 200)}` : ''}` 
-          : 'Check server logs for details'
+        errorName: errorName,
+        errorMessage: errorMessage,
+        // Show first 500 chars of stack trace
+        errorStack: errorStack ? errorStack.substring(0, 500) : undefined,
       },
       { status: 500 }
     );
