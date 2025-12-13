@@ -33,6 +33,10 @@ export default function ClientLogin() {
       const data = await response.json();
 
       if (response.ok) {
+        // Store token in localStorage for client-side auth checks
+        if (data.token) {
+          localStorage.setItem('clientToken', data.token);
+        }
         router.push('/client/dashboard');
       } else {
         setError(data.error || 'Login failed');

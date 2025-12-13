@@ -52,9 +52,10 @@ export async function POST(request: NextRequest) {
       role: user.role,
     });
 
-    // Create response and set HTTP-only cookie
+    // Create response with token in body (for localStorage) and HTTP-only cookie
     const response = NextResponse.json({
       success: true,
+      token, // Include token in response body for client-side storage
     });
     return setAuthCookieInResponse(response, token);
   } catch (error: any) {

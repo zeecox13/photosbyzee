@@ -31,7 +31,11 @@ export default function ManagerLogin() {
       const data = await response.json();
 
       if (response.ok) {
-        router.push('/admin/dashboard');
+        // Store token in localStorage for client-side auth checks
+        if (data.token) {
+          localStorage.setItem('managerToken', data.token);
+        }
+        router.push('/manager');
       } else {
         setError(data.error || 'Login failed');
       }
