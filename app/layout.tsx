@@ -1,14 +1,17 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 // Dynamically import client components to avoid SSR issues
 const PublicNavbar = dynamic(() => import('./components/Navbar'), {
   ssr: false,
+  loading: () => null, // Don't show anything while loading
 });
 
 const ScrollProgress = dynamic(() => import('./components/ScrollProgress'), {
   ssr: false,
+  loading: () => null, // Don't show anything while loading
 });
 
 export const metadata: Metadata = {
@@ -24,8 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ScrollProgress />
-        <PublicNavbar />
+        <Suspense fallback={null}>
+          <ScrollProgress />
+        </Suspense>
+        <Suspense fallback={null}>
+          <PublicNavbar />
+        </Suspense>
         {children}
       </body>
     </html>
