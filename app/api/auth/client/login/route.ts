@@ -60,8 +60,13 @@ export async function POST(request: NextRequest) {
     return setAuthCookieInResponse(response, token);
   } catch (error: any) {
     console.error('Client login error:', error);
+    // Return more specific error message for debugging
+    const errorMessage = error?.message || 'Internal server error';
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Internal server error',
+        details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+      },
       { status: 500 }
     );
   }
