@@ -63,14 +63,21 @@ export default function ManagerLayout({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div>Loading...</div>
+      <div className="flex items-center justify-center min-h-screen bg-[#F8F7F1]">
+        <div className="text-[#D4AF50]">Loading...</div>
       </div>
     );
   }
 
   if (!isAuthenticated) {
-    return null;
+    // Return a simple redirect message instead of null to prevent 404
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#F8F7F1]">
+        <div className="text-center">
+          <p className="text-[#3C4033] mb-4">Redirecting to login...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
