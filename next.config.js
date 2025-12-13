@@ -12,6 +12,11 @@ const nextConfig = {
     }
     return config;
   },
+  // Explicitly expose environment variables (though they should work automatically)
+  env: {
+    // These are already available via process.env, but explicitly listing them
+    // can help with some edge cases
+  },
 }
 
 module.exports = nextConfig
