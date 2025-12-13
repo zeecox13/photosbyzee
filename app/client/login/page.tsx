@@ -39,9 +39,16 @@ export default function ClientLogin() {
         }
         router.push('/client/dashboard');
       } else {
-        setError(data.error || 'Login failed');
+        // Show detailed error information for debugging
+        const errorMsg = data.error || 'Login failed';
+        const details = data.errorMessage ? `\n\nError: ${data.errorMessage}` : '';
+        const errorName = data.errorName ? `\nType: ${data.errorName}` : '';
+        setError(`${errorMsg}${errorName}${details}`);
+        // Also log to console for debugging
+        console.error('Login error details:', data);
       }
     } catch (err) {
+      console.error('Login request failed:', err);
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);
